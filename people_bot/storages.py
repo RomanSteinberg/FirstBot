@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABC, abstractmethod
-from collections import OrderedDict
+from queue import PriorityQueue
 
 
 class BotStorage(ABC):
@@ -31,7 +31,7 @@ class HandMadeStorage(BotStorage):
     """
     def __init__(self):
         super(HandMadeStorage, self).__init__()
-        self.people = []  # будем хранить пары (pid, info)
+        self._people = []  # будем хранить пары (pid, info)
 
     def add(self, person: list):
         pid = person[0]
@@ -39,13 +39,14 @@ class HandMadeStorage(BotStorage):
 
         # реализуем вставку за O(log(N)) в отсортированный списке
         ind = self.__binary_search(pid)
-        self.people.insert(ind, (pid, info))
+        if len(self._people) == ind or pid != self._people[ind][0]:
+            self._people.insert(ind, (pid, info))
 
     def delete(self, person_id: int):
         # реализуем поиск за O(log(N)) в отсортированном списке
         ind = self.__binary_search(person_id)
-        if person_id == self.people[ind][0]:
-            self.people.pop(ind)
+        if len(self._people)>0 and person_id == self._people[ind][0]:
+            self._people.pop(ind)
 
     def get_list(self):
         # сортировка вставками уже отработала во время добавления информации, остается только выдать список
@@ -56,37 +57,12 @@ class HandMadeStorage(BotStorage):
         return result
 
     def __binary_search(self, pid):
-        l, r = 0, len(self.people) - 1
+        l, r = 0, len(self._people)
         m = l + (r - l) // 2
         while l < r:
-            if self.people[m][0] < pid:
+            if self._people[m][0] < pid:
                 l = m + 1
             else:
                 r = m
             m = l + (r - l) // 2
         return m
-
-
-class GoodStorage(BotStorage):
-    """
-    Класс эффективно и компактно реализует хранилище.
-    """
-    def __init__(self):
-        super(GoodStorage, self).__init__()
-        self.people = OrderedDict()
-
-    def add(self, person: list):
-        self.people[person[0]] = {attr: value for attr, value in zip(self._attributes, person[1:])}
-
-    def delete(self, person_id: int):
-        if person_id in self.people:
-            del self.people[person_id]
-
-    def get_list(self):
-        result = ''
-        for pid, info in self._people.items():
-            str_info = ' | '.join(str(value) for attr, value in info.items())
-            result += f'{pid}: {str_info}\n'
-        return result
-
-

@@ -1,2 +1,2 @@
-from .bot import *
+# from .bot import *
 from .storages import *
