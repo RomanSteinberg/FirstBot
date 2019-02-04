@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-
 from abc import ABC, abstractmethod
-from queue import PriorityQueue
 
 
 class BotStorage(ABC):

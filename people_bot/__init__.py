@@ -1,2 +1,2 @@
-# from .bot import *
+from .controller import *
 from .storages import *

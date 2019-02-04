@@ -2,7 +2,7 @@
 
 import yaml
 from os import path
-# from .bot import PeopleInfoBot
+from people_bot.controller import PeopleInfoBot
 
 
 def main():
@@ -10,9 +10,9 @@ def main():
     if not path.exists(cfg_path):
         print('Скопируйте файл default-config.yaml, переименуйте его в config.yaml, укажите параматеры.')
         return
-    config = yaml.load('config.yaml')
-    # bot = PeopleInfoBot(config['token'])
-    # bot.start()
+    config = yaml.load(open('config.yaml'))
+    bot = PeopleInfoBot(config['token'])
+    bot.start()
 
 
 if __name__ == '__main__':
