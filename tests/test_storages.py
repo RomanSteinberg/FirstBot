@@ -1,5 +1,5 @@
 import unittest
-from people_bot import HandMadeStorage, BotStorage
+from people_bot.storages import HandMadeStorage, BotStorage
 
 
 class CorrectStorage(BotStorage):
@@ -63,7 +63,19 @@ class TestStorageMethods(unittest.TestCase):
         self.__add(parsed_record)
         self.__compare_states()
 
+        # удаление несуществующих
+        self.__del(0)
+        self.__compare_states()
+        self.__del(5)
+        self.__compare_states()
+
     def test_add_and_del(self):
+        parsed_record = [1, 'Иван Иванович Иванов', 20, 'м', 'Карфаген', 'Карфаген']
+        self.__add(parsed_record)
+        self.__del(1)
+        self.__compare_states()
+
+    def test_add2_and_del(self):
         parsed_record = [1, 'Иван Иванович Иванов', 20, 'м', 'Карфаген', 'Карфаген']
         self.__add(parsed_record)
         # добавим еще
