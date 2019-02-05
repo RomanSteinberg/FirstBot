@@ -1,7 +1,7 @@
 # First Bot
 
-English: Telegram bot demo!
-Русский: Демо-бот для Telegram.
+English: Telegram bot demo!  
+Русский: Демо-бот для Telegram!
 
 ### Цель
 
